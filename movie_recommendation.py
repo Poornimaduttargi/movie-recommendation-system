@@ -35,6 +35,14 @@ def fetch_director(text):
     return L
 def remove_space(L):
     return [i.replace(" ", "") for i in L]
+def recommend(movie):
+    movie_index = new_df[new_df['title'] == movie].index[0]
+    distances = similarity[movie_index]
+    
+    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
+    
+    for i in movie_list:
+        print(new_df.iloc[i[0]].title)
 
 movies['genres'] = movies['genres'].apply(convert)
 movies['keywords'] = movies['keywords'].apply(convert)
@@ -61,3 +69,4 @@ similarity = cosine_similarity(vectors)
 # print(new_df.head())
 # print(vectors.shape)
 print(similarity.shape)
+recommend("Avatar")
